@@ -12,10 +12,27 @@ import org.apache.bcel.generic.ObjectType;
 import org.apache.bcel.generic.PUSH;
 import org.apache.bcel.generic.Type;
 
+/**
+ * blah.
+ * @author Barnaby Golden
+ *
+ */
+@SuppressWarnings("PMD.UseSingleton")
+public final class MakeClazz {
 
-public class MakeClazz {
+    /**
+     * Private.
+     */
+    private MakeClazz() {
+        super();
+    }
 
-    public static void main(String[] args) throws Exception {
+    /**
+     * blah.
+     * @param args param
+     * @throws Exception thrown
+     */
+    public static void main(final String[] args) throws Exception {
 
         // public HellowWorld extends java.lang.Object
         ClassGen classGen = new ClassGen("HelloWorld", "java.lang.Object", "",
@@ -24,7 +41,8 @@ public class MakeClazz {
         ConstantPoolGen constantPoolGen = classGen.getConstantPool();
         InstructionList instructionList = new InstructionList();
 
-        InstructionFactory instructionFactory = new InstructionFactory(classGen);
+        final InstructionFactory instructionFactory =
+                                new InstructionFactory(classGen);
 
         classGen.addEmptyConstructor(Constants.ACC_PUBLIC);
 
@@ -39,7 +57,7 @@ public class MakeClazz {
 
         instructionList.append(instructionFactory.createInvoke(
                 "java.io.PrintStream", "println", Type.VOID,
-                new Type[] { Type.STRING }, Constants.INVOKEVIRTUAL));
+                new Type[] {Type.STRING}, Constants.INVOKEVIRTUAL));
 
         instructionList.append(InstructionConstants.RETURN);
 
@@ -49,8 +67,8 @@ public class MakeClazz {
                 Type.VOID,
 
                 // (String[] args)
-                new Type[] { new ArrayType(Type.STRING, 1) },
-                new String[] { "args" }, "main", "HelloWorld", instructionList,
+                new Type[] {new ArrayType(Type.STRING, 1)},
+                new String[] {"args"}, "main", "HelloWorld", instructionList,
                 constantPoolGen);
 
         //instructionList.setPositions();
@@ -61,7 +79,7 @@ public class MakeClazz {
         classGen.addMethod(methodGen.getMethod());
 
         instructionList.dispose();
-        
+
         classGen.getJavaClass().dump("HelloWorld.class");
     }
 }

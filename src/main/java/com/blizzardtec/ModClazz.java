@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.blizzardtec;
 
@@ -18,26 +18,44 @@ import org.apache.bcel.Repository;
 
 /**
  * @author Barnaby Golden
- * 
+ *
  */
 public final class ModClazz {
 
+    /**
+     * blah.
+     */
     private ClassGen myClassGen;
+    /**
+     * blah.
+     */
     private ConstantPoolGen cp;
+    /**
+     * blah.
+     */
     private InstructionFactory factory;
 
     /**
-     * @param args
+     * @param args param
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
 
         final ModClazz modClazz = new ModClazz();
-        modClazz.buildClass("Vehicle", "com.blizzardtec", new String[] {"mileage"});
+        modClazz.buildClass(
+                "Vehicle", "com.blizzardtec", new String[] {"mileage"});
 
         System.out.println("Class generated");
     }
 
-    public void buildClass(final String className, final String packageName, final String[] fields) {
+    /**
+     * blah.
+     * @param className param
+     * @param packageName param
+     * @param fields param
+     */
+    public void buildClass(
+            final String className,
+            final String packageName, final String[] fields) {
 
         final String qualifiedClassName = packageName + "." + className;
 
@@ -63,7 +81,7 @@ public final class ModClazz {
             myClassGen.addField(fg.getField());
 
             createGetter(qualifiedClassName, fields[i]);
-            createSetter(qualifiedClassName, fields[i]);            
+            createSetter(qualifiedClassName, fields[i]);
         }
 
         // write out the new class file
@@ -72,7 +90,7 @@ public final class ModClazz {
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
             System.exit(1);
-        }        
+        }
     }
 
     /**
@@ -80,23 +98,29 @@ public final class ModClazz {
      * @param qualifiedClassName full package and class name
      * @param field the field the getter is for
      */
-    private void createGetter(final String qualifiedClassName, final String field) {
+    private void createGetter(
+            final String qualifiedClassName, final String field) {
 
         final InstructionList il = new InstructionList();
 
         il.append(InstructionFactory.createLoad(Type.OBJECT, 0));
-        il.append(factory.createFieldAccess(qualifiedClassName, field, Type.INT, Constants.GETFIELD));
+
+        il.append(
+              factory.createFieldAccess(
+                      qualifiedClassName, field, Type.INT, Constants.GETFIELD));
+
         il.append(InstructionFactory.createReturn(Type.INT));
 
         MethodGen methodGen = new MethodGen(Constants.ACC_PUBLIC, Type.INT,
-                Type.NO_ARGS, new String[] {}, fieldToGetter(field), qualifiedClassName, il,
-                cp);
+            Type.NO_ARGS,
+                new String[] {},
+                    fieldToGetter(field), qualifiedClassName, il, cp);
 
         methodGen.setMaxStack();
         methodGen.setMaxLocals();
 
         myClassGen.addMethod(methodGen.getMethod());
-        il.dispose();        
+        il.dispose();
     }
 
     /**
@@ -104,17 +128,20 @@ public final class ModClazz {
      * @param qualifiedClassName full package and class name
      * @param field the field the setter is for
      */
-    private void createSetter(final String qualifiedClassName, final String field) {
+    private void createSetter(
+            final String qualifiedClassName, final String field) {
 
         final InstructionList il = new InstructionList();
 
         il.append(InstructionFactory.createLoad(Type.OBJECT, 0));
         il.append(InstructionFactory.createLoad(Type.INT, 1));
-        il.append(factory.createFieldAccess(qualifiedClassName, field, Type.INT, Constants.PUTFIELD));
+        il.append(factory.createFieldAccess(
+                qualifiedClassName, field, Type.INT, Constants.PUTFIELD));
         il.append(InstructionFactory.createReturn(Type.VOID));
 
         MethodGen methodGen = new MethodGen(Constants.ACC_PUBLIC, Type.VOID,
-                new Type[] { Type.INT }, new String[] { "arg0" }, fieldToSetter(field),
+                new Type[] {Type.INT},
+                new String[] {"arg0"}, fieldToSetter(field),
                 qualifiedClassName, il, cp);
 
         methodGen.setMaxStack();
@@ -131,15 +158,23 @@ public final class ModClazz {
      */
     private String fieldToSetter(final String field) {
 
-        String firstLetterUpper = field.substring(0,1).toUpperCase() + field.substring(1);
+        final String firstLetterUpper =
+                field.substring(0, 1).toUpperCase() + field.substring(1);
 
         return "set" + firstLetterUpper;
     }
 
+    /**
+     * blah.
+     * @param field param
+     * @return val
+     */
     private String fieldToGetter(final String field) {
 
-        String firstLetterUpper = field.substring(0,1).toUpperCase() + field.substring(1);
+        String firstLetterUpper =
+                field.substring(0, 1).toUpperCase() + field.substring(1);
 
         return "get" + firstLetterUpper;
     }
 }
+

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.blizzardtec;
 
@@ -9,6 +9,9 @@ package com.blizzardtec;
  */
 public final class Vehicle {
 
+    /**
+     * blah.
+     */
     private String colour;
 
     /**
@@ -21,7 +24,7 @@ public final class Vehicle {
     /**
      * @param colour the colour to set
      */
-    public void setColour(String colour) {
+    public void setColour(final String colour) {
         this.colour = colour;
     }
 }
