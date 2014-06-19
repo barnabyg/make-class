@@ -113,7 +113,7 @@
         <artifactId>maven-pmd-plugin</artifactId>
         <version>${pmd.version}</version>
         <configuration>
-          <targetJdk>1.6</targetJdk>
+          <targetJdk>1.7</targetJdk>
           <rulesets>
             <ruleset>${basedir}/src/main/resources/barnaby-pmd-config.xml</ruleset>
           </rulesets>
